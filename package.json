@@ -1,0 +1,40 @@
+{
+  "name": "easyline-core",
+  "version": "1.0.0",
+  "description": "facifila core project",
+  "main": "index.js",
+  "scripts": {
+    "start": "moleculer-runner -e services",
+    "dev": "moleculer-runner --hot --repl -e services",
+    "lint": "eslint ./services",
+    "migrate": "cross-env NODE_ENV=development sequelize db:migrate",
+    "test": "echo \"Error: no test specfied\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucashenrique1997/easyline-core.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lucashenrique1997/easyline-core/issues"
+  },
+  "homepage": "https://github.com/lucashenrique1997/easyline-core#readme",
+  "dependencies": {
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "jsonschema": "^1.2.10",
+    "moleculer": "^0.14.11",
+    "moleculer-repl": "^0.6.4",
+    "moleculer-web": "^0.9.1",
+    "pg": "^8.4.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.3.5"
+  },
+  "devDependencies": {
+    "eslint": "^7.10.0",
+    "jsonwebtoken": "^8.5.1",
+    "sequelize-cli": "^6.2.0",
+    "uuid": "^8.3.1"
+  }
+}

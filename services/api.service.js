@@ -43,6 +43,37 @@ module.exports = {
 				},
 			},
 			{
+				path: '/appointments',
+				onError(req, res, error) {
+					this.parseError(res, error);
+				},
+				authorization: false,
+				aliases: {
+					'POST /': 'appointments.create',
+					'GET /': 'appointments.getAll',
+					'GET /:uuid': 'appointments.getByUuid',
+					'PATCH /:uuid': 'appointments.update',
+					'DELETE /:uuid': 'appointments.delete',
+				},
+				bodyParsers: {
+					json: true,
+				},
+			},
+			{
+				path: '/system-parameters',
+				onError(req, res, error) {
+					this.parseError(res, error);
+				},
+				authorization: false,
+				aliases: {
+					'GET /': 'systemParameters.get',
+					'PATCH /': 'systemParameters.update',
+				},
+				bodyParsers: {
+					json: true,
+				},
+			},
+			{
 				path: '/',
 				authorization: false,
 				aliases: {

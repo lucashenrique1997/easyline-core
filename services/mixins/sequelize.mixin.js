@@ -92,13 +92,13 @@ module.exports = {
 
 					if (models[tablesName.entities]){
 
-						if (models[tablesName.profiles] &&  setting.name === tablesName.profiles) {
-							models[tablesName.profiles].hasOne(models[tablesName.entities], {
+						if (models[tablesName.user_profiles] &&  setting.name === tablesName.profiles) {
+							models[tablesName.user_profiles].hasOne(models[tablesName.entities], {
 								sourceKey: 'entityUuid',
 								foreignKey: 'uuid',
 								as: ''
 							});
-							models[tablesName.entities].belongsTo(models[tablesName.profiles], {
+							models[tablesName.entities].belongsTo(models[tablesName.user_profiles], {
 								targetKey: 'entityUuid',
 								foreignKey: 'uuid'
 							});
@@ -114,6 +114,19 @@ module.exports = {
 								targetKey: 'entityUuid',
 								foreignKey: 'uuid',
 								as: 'credentialsEntities'
+							});
+						}
+
+						if(models[tablesName.appointments] && setting.name === tablesName.appointments) {
+							models[tablesName.appointments].belongsToMany(models[tablesName.entities], {
+								sourceKey: 'entityUuid',
+								foreignKey: 'uuid',
+								as: 'appointmentsEntities'
+							});
+							models[tablesName.entities].belongsToMany(models[tablesName.appointments], {
+								sourceKey: 'uuid',
+								foreignKey: 'entityUuid',
+								as: 'appointmentsEntities'
 							});
 						}
 					}

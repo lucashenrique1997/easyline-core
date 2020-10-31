@@ -6,7 +6,9 @@ module.exports = {
 		'rules': {
 			'entities': 'entities',
 			'credentials': 'credentials',
-			'user_profiles': 'user_profiles'
+			'user_profiles': 'user_profiles',
+			'appointments': 'appointments',
+			'system_parameters': 'system_parameters'
 		},
 	},
 	'environment': 'development'

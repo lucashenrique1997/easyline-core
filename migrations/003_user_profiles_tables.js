@@ -8,7 +8,7 @@ module.exports = {
         field: 'entity_uuid',
         primaryKey: true,
         references: {
-          model: 'Entities',
+          model: 'entities',
           key: 'uuid'
         }
       },

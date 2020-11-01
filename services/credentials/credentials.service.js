@@ -45,7 +45,8 @@ module.exports = {
           entityUuid: ctx.params.entityUuid,
           user: ctx.params.user,
           type: ctx.params.type,
-          hash: sha256(ctx.params.password + config.salt)
+          hash: sha256(ctx.params.password + config.salt),
+          recovery: cryptr.encrypt(ctx.params.password)
         }).then(() => {
           this.cleanCache(ctx);
           return {entityUuid: ctx.params.entityUuid};

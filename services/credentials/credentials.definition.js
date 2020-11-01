@@ -29,14 +29,6 @@ module.exports = {
     recovery: {
       type: Sequelize.STRING,
       field: 'recovery'
-    },
-    mail: {
-      type: Sequelize.STRING,
-      field: 'mail'
-    },
-    seeder: {
-      type: Sequelize.STRING,
-      field: 'seeder'
     }
   },
 

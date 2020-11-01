@@ -74,6 +74,34 @@ module.exports = {
 				},
 			},
 			{
+				path: '/users',
+				onError(req, res, error) {
+					this.parseError(res, error);
+				},
+				authorization: false,
+				aliases: {
+					'POST /signup': 'users.signup',
+					'POST /login': 'users.login',
+				},
+				bodyParsers: {
+					json: true,
+				},
+			},
+			{
+				path: '/admin',
+				onError(req, res, error) {
+					this.parseError(res, error);
+				},
+				authorization: false,
+				aliases: {
+					'POST /login': 'admin.login',
+					'POST /:entityUuid/update-password': 'credentials.updatePassword',
+				},
+				bodyParsers: {
+					json: true,
+				},
+			},
+			{
 				path: '/',
 				authorization: false,
 				aliases: {

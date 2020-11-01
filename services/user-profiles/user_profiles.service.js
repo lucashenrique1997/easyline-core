@@ -24,6 +24,7 @@ module.exports = {
   actions: {
     create: {
       params: {
+        entityUuid: 'string',
         name: 'string',
         legalId: 'string',
         birthDate: 'string',
@@ -33,9 +34,9 @@ module.exports = {
         $$strict: true
       },
       async handler(ctx) {
-        const {name, legalId, birthDate, gender, isPregnant, specialNeeds} = ctx.params;
+        const {name, legalId, birthDate, gender, isPregnant, specialNeeds, entityUuid} = ctx.params;
         const user_profile = {
-          uuid: uuid(),
+          entityUuid,
           name,
           legalId,
           birthDate,
@@ -46,7 +47,8 @@ module.exports = {
         this.cleanCache();
         return this[tablesName.user_profiles].create(user_profile).then((res) => {
           return res.dataValues
-        }).catch(() => {
+        }).catch((err) => {
+          console.log(err);
           let message = 'Error while trying to create user profile';
           return Promise.reject(message);
         });
@@ -60,8 +62,16 @@ module.exports = {
       cache: {
         keys: ['entityUuid']
       },
-      async handler(ctx) {
+      handler(ctx) {
         return this[tablesName.user_profiles].findOne({where: {entityUuid: ctx.params.entityUuid}, raw: true});
+      }
+    },
+    getByLegalId: {
+      params: {
+        legalId: 'string',
+      },
+      handler(ctx) {
+        return this[tablesName.user_profiles].findOne({where: {legalId: ctx.params.legalId}, raw: true});
       }
     },
     update: {

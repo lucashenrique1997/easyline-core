@@ -51,6 +51,7 @@ module.exports = {
 				aliases: {
 					'POST /': 'appointments.create',
 					'GET /': 'appointments.getAll',
+					'GET /live': 'appointments.getLiveLine',
 					'GET /:uuid': 'appointments.getByUuid',
 					'PATCH /:uuid': 'appointments.update',
 					'DELETE /:uuid': 'appointments.delete',

@@ -92,7 +92,7 @@ module.exports = {
 
 					if (models[tablesName.entities]){
 
-						if (models[tablesName.user_profiles] &&  setting.name === tablesName.profiles) {
+						if (models[tablesName.user_profiles] &&  setting.name === tablesName.user_profiles) {
 							models[tablesName.user_profiles].hasOne(models[tablesName.entities], {
 								sourceKey: 'entityUuid',
 								foreignKey: 'uuid',
@@ -127,6 +127,16 @@ module.exports = {
 								sourceKey: 'uuid',
 								foreignKey: 'entityUuid',
 								as: 'appointmentsEntities'
+							});
+						}
+					}
+
+					if (models[tablesName.appointments]){
+
+						if (models[tablesName.user_profiles] &&  setting.name === tablesName.user_profiles) {
+							models[tablesName.appointments].hasOne(models[tablesName.user_profiles], {
+								sourceKey: 'entityUuid',
+								foreignKey: 'entityUuid'
 							});
 						}
 					}

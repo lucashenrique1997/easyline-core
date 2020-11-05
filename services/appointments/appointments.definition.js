@@ -27,11 +27,29 @@ module.exports = {
             allowNull: false,
             field: 'fast_time',
         },
+        priority: {
+            type: Sequelize.NUMBER,
+            allowNull: false,
+            field: 'priority',
+        },
+        status: {
+            type: Sequelize.ENUM,
+            values: ['scheduled', 'canceled', 'confirmed'],
+            field: 'status',
+        },
         date: {
             type: Sequelize.DATE,
             allowNull: false,
             field: 'date'
         },
+        createdAt: {
+            type: Sequelize.DATE,
+            field: 'created_at'
+        },
+        updatedAt: {
+            type: Sequelize.DATE,
+            field: 'updated_at'
+        }
     },
 
     fields: [

@@ -82,7 +82,22 @@ module.exports = {
 				authorization: false,
 				aliases: {
 					'POST /signup': 'users.signup',
-					'POST /login': 'users.login',
+					'POST /login': 'users.login'
+				},
+				bodyParsers: {
+					json: true,
+				},
+			},
+			{
+				path: '/users',
+				onError(req, res, error) {
+					this.parseError(res, error);
+				},
+				authorization: true,
+				aliases: {
+					'PATCH /:entityUuid': 'profiles.update',
+					'GET /:entityUuid/appointments': 'appointments.getByEntityUuid',
+					'GET /me': 'profiles.getByToken',
 				},
 				bodyParsers: {
 					json: true,
@@ -124,6 +139,9 @@ module.exports = {
 			if (auth && auth.startsWith('Bearer')) {
 				const token = auth.slice(7);
 				return ctx.call('jwt.verifyToken', {token})
+					.then((res) => {
+						ctx.meta.authorizationToken = token;
+					})
 					.catch((error) => {
 						res.statusCode = 403;
 						res.end(JSON.stringify({

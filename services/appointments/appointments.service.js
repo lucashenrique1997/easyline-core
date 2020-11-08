@@ -71,6 +71,7 @@ module.exports = {
                         return Promise.reject(message);
                     });
                 } catch (err) {
+                    console.log('err= ', err);
                     let message = 'Error while trying to create appointment';
                     if (ctx.meta.$statuscode) {
                         message = err;
@@ -112,6 +113,27 @@ module.exports = {
             cache: true,
             handler(ctx){
                 return this[tablesName.appointments].findAll({
+                    raw: true,
+                }).catch((e) => {
+                    let message = 'Error while trying to get appointments';
+                    if (ctx.meta.$statuscode) {
+                        message = e;
+                    }
+                    return Promise.reject(message);
+                });
+            }
+        },
+        getByEntityUuid: {
+            params: {
+                entityUuid: 'string',
+                $$strict: true
+            },
+            handler(ctx){
+                const {entityUuid} = ctx.params;
+                return this[tablesName.appointments].findAll({
+                    where: {
+                        entityUuid
+                    },
                     raw: true,
                 }).catch((e) => {
                     let message = 'Error while trying to get appointments';

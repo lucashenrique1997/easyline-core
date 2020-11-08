@@ -66,6 +66,13 @@ module.exports = {
         return this[tablesName.user_profiles].findOne({where: {entityUuid: ctx.params.entityUuid}, raw: true});
       }
     },
+    getByToken: {
+      async handler(ctx) {
+        const {meta: {authorizationToken}} = ctx;
+        const token = await ctx.call('jwt.verifyToken', {token: authorizationToken});
+        return this[tablesName.user_profiles].findOne({where: {entityUuid: token.entityUuid}, raw: true});
+      }
+    },
     getByLegalId: {
       params: {
         legalId: 'string',

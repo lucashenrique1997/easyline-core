@@ -27,7 +27,6 @@ module.exports = {
 
     actions: {
         get: {
-            cache: true,
             handler(ctx){
                 return this[tablesName.system_parameters].findOne({
                     raw: true,
@@ -39,6 +38,7 @@ module.exports = {
                         return Promise.reject(new Error('System parameters Not Found'));
                     }
                 }).catch((e) => {
+                    console.log('e=',e);
                     let message = 'Error while trying to get System parameters';
                     if (ctx.meta.$statuscode) {
                         message = e;
@@ -58,22 +58,26 @@ module.exports = {
             handler(ctx){
                 this.cleanCache();
                 delete ctx.params.uuid;
-                return this[tablesName.appointments].update(ctx.params);
+                return this[tablesName.system_parameters].update(ctx.params, {
+                    where: {
+                        uuid: '7125d78a-f6e7-4c93-ae91-fc030473faba'
+                    }
+                });
             }
         },
     },
 
     events: {
-        'cache.clean.appointments'() {
+        'cache.clean.systemParameters'() {
             if (this.broker.cacher) {
-                this.broker.cacher.clean('appointments.**');
+                this.broker.cacher.clean('systemParameters.**');
             }
         },
     },
 
     methods: {
         cleanCache() {
-            this.broker.broadcast('cache.clean.appointments');
+            this.broker.broadcast('cache.clean.systemParameters');
         },
     },
 }

@@ -2,6 +2,12 @@ const Sequelize = require('sequelize');
 
 module.exports = {
     system_parameters: {
+        uuid: {
+            type: Sequelize.STRING(36),
+            field: 'uuid',
+            allowNull: false,
+            primaryKey: true
+        },
         activityStartTime: {
             type: Sequelize.STRING(36),
             field: 'activity_start_time',
@@ -21,6 +27,7 @@ module.exports = {
     },
 
     fields: [
+        'uuid',
         'activityStartTime',
         'activityEndTime',
         'numberOfEmployees',

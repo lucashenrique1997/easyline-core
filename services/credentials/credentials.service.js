@@ -65,28 +65,40 @@ module.exports = {
      * **/
     updatePassword: {
       params: {
-        entityUuid: 'string',
+        oldPassword: 'string',
         password: 'string',
         $$strict: true
       },
       async handler(ctx) {
         try {
+          const {meta: {authorizationToken}} = ctx;
+          console.log('authorization = ', authorizationToken);
+          const token = await ctx.call('jwt.verifyToken', {token: authorizationToken});
+          const oldCredentials = await ctx.call('credentials.getById', {entityUuid: token.entityUuid});
+          const oldHash = sha256(ctx.params.oldPassword + config.salt);
+
+          if(oldCredentials.hash !== oldHash) {
+            ctx.meta.$statuscode = 400;
+            return Promise.reject('Invalid old password.');
+          }
+
           const hash = sha256(ctx.params.password + config.salt);
           const recovery = cryptr.encrypt(ctx.params.password);
           return this[tablesName.credentials].update({hash, recovery}, {
             where: {
-              entityUuid: ctx.params.entityUuid
+              entityUuid: token.entityUuid
             }
-          }).then(async (res) => {
+          }).then((res) => {
             if (res && res[0] > 0) {
               this.cleanCache(ctx);
-              return {hash, recovery};
+              return ctx.call('admin.login', {user: oldCredentials.user, password: ctx.params.password});
             } else {
               ctx.meta.$statuscode = 404;
               return Promise.reject('Credential Not Found');
             }
           })
         } catch (e) {
+          console.log('e=',e);
           let message = 'Error to update credentials';
           if (ctx.meta.$statuscode) {
             message = e;
